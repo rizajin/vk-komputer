@@ -5,6 +5,7 @@ class KomputeFramework
 {
    public:
     KomputeFramework() = default;
+    void Init();
     
    private:
 };
