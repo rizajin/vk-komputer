@@ -2,21 +2,40 @@
 #include <Windows.h>
 
 #include <vulkan/vulkan.h>
+#include "vk.h"
 
-HMODULE lib;
-
-void KomputeFramework::Init()
+namespace
 {
+    HMODULE lib;
+}
+
+KomputeFramework::~KomputeFramework()
+{
+    CleanUp();
+}
+
+bool KomputeFramework::Init()
+{
+    // TODO: unix
     lib = LoadLibrary("vulkan-1.dll");
-    auto x = (PFN_vkGetInstanceProcAddr)GetProcAddress(lib, "vkGetInstanceProcAddr");
-    auto vkCreateInstance = (PFN_vkCreateInstance)x(nullptr, "vkCreateInstance");
+    InitFunctions(lib);
+
     VkInstanceCreateInfo ici{};
     ici.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     VkInstance inst;
     auto res = vkCreateInstance(&ici, nullptr, &inst);
-    if (res == VK_SUCCESS)
+    if (res != VK_SUCCESS)
     {
-        
+        // TODO: error messages
+        CleanUp();
+        return false;
     }
 
+    return true;
+}
+
+void KomputeFramework::CleanUp()
+{
+    FreeLibrary(lib);
+    CleanUpVk();
 }
