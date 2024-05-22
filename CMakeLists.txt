@@ -10,6 +10,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_library(vkKompute STATIC 
     src/framework.cpp
     inc/framework.h
+    src/vk.cpp
+    src/vk.h
 )
 target_compile_definitions(vkKompute PRIVATE -DVK_NO_PROTOTYPES)
 target_link_libraries(vkKompute PRIVATE Vulkan::Headers)
