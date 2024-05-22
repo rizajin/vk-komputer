@@ -5,9 +5,11 @@ class KomputeFramework
 {
    public:
     KomputeFramework() = default;
-    void Init();
+    ~KomputeFramework();
+    bool Init();
     
    private:
+    void CleanUp();
 };
 
 #endif
