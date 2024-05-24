@@ -4,10 +4,58 @@
 #include <Windows.h>
 #include <vulkan/vulkan.h>
 
-extern PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr;
-extern PFN_vkCreateInstance vkCreateInstance;
-
 bool InitFunctions(HMODULE);
 void CleanUpVk();
 
+// clang-format off
+extern PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr;
+// loader
+extern PFN_vkCreateInstance vkCreateInstance;
+
+// instance
+extern PFN_vkGetDeviceProcAddr vkGetDeviceProcAddr;
+extern PFN_vkEnumeratePhysicalDevices vkEnumeratePhysicalDevices;
+extern PFN_vkGetPhysicalDeviceProperties vkGetPhysicalDeviceProperties;
+extern PFN_vkGetPhysicalDeviceFeatures vkGetPhysicalDeviceFeatures;
+extern PFN_vkGetPhysicalDeviceMemoryProperties vkGetPhysicalDeviceMemoryProperties;
+extern PFN_vkGetPhysicalDeviceQueueFamilyProperties vkGetPhysicalDeviceQueueFamilyProperties;
+extern PFN_vkDestroyInstance vkDestroyInstance;
+extern PFN_vkCreateDevice vkCreateDevice;
+
+// device
+extern PFN_vkAllocateCommandBuffers vkAllocateCommandBuffers;
+extern PFN_vkBeginCommandBuffer vkBeginCommandBuffer;
+extern PFN_vkCmdBindPipeline vkCmdBindPipeline;
+extern PFN_vkCmdBindDescriptorSets vkCmdBindDescriptorSets;
+extern PFN_vkCmdDispatch vkCmdDispatch;
+extern PFN_vkEndCommandBuffer vkEndCommandBuffer;
+extern PFN_vkCreateFence vkCreateFence;
+extern PFN_vkQueueSubmit vkQueueSubmit;
+extern PFN_vkWaitForFences vkWaitForFences;
+extern PFN_vkDestroyFence vkDestroyFence;
+extern PFN_vkAllocateDescriptorSets vkAllocateDescriptorSets;
+extern PFN_vkGetDeviceQueue vkGetDeviceQueue;
+extern PFN_vkCreateCommandPool vkCreateCommandPool;
+extern PFN_vkCreateDescriptorPool vkCreateDescriptorPool;
+extern PFN_vkDestroyCommandPool vkDestroyCommandPool;
+extern PFN_vkDestroyDescriptorPool vkDestroyDescriptorPool;
+extern PFN_vkDestroyDevice vkDestroyDevice;
+extern PFN_vkCreateBuffer vkCreateBuffer;
+extern PFN_vkGetBufferMemoryRequirements vkGetBufferMemoryRequirements;
+extern PFN_vkAllocateMemory vkAllocateMemory;
+extern PFN_vkBindBufferMemory vkBindBufferMemory;
+extern PFN_vkUpdateDescriptorSets vkUpdateDescriptorSets;
+extern PFN_vkDestroyBuffer vkDestroyBuffer;
+extern PFN_vkFreeMemory vkFreeMemory;
+extern PFN_vkMapMemory vkMapMemory;
+extern PFN_vkUnmapMemory vkUnmapMemory;
+extern PFN_vkCreateShaderModule vkCreateShaderModule;
+extern PFN_vkCreateDescriptorSetLayout vkCreateDescriptorSetLayout;
+extern PFN_vkCreatePipelineLayout vkCreatePipelineLayout;
+extern PFN_vkCreateComputePipelines vkCreateComputePipelines;
+extern PFN_vkDestroyPipelineLayout vkDestroyPipelineLayout;
+extern PFN_vkDestroyDescriptorSetLayout vkDestroyDescriptorSetLayout;
+extern PFN_vkDestroyPipeline vkDestroyPipeline;
+extern PFN_vkDestroyShaderModule vkDestroyShaderModule;
+// clang-format on
 #endif
