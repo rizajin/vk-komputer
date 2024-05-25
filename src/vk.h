@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include <vulkan/vulkan.h>
 
-bool InitFunctions(HMODULE);
+bool Initialize(HMODULE);
 void CleanUpVk();
 
 // clang-format off

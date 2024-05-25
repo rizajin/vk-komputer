@@ -18,9 +18,7 @@ bool KomputeFramework::Init()
 {
     // TODO: unix
     lib = LoadLibrary("vulkan-1.dll");
-    InitFunctions(lib);
-
-    return true;
+    return Initialize(lib);
 }
 
 void KomputeFramework::CleanUp()
