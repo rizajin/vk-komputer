@@ -12,6 +12,15 @@ add_library(vkKompute STATIC
     inc/framework.h
     src/vk.cpp
     src/vk.h
+
+    src/command_manager.cpp
+    src/command_manager.h
+    src/device.cpp
+    src/device.h
+    src/instance.cpp
+    src/instance.h
+    src/pipeline.cpp
+    src/pipeline.h
 )
 target_compile_definitions(vkKompute PRIVATE -DVK_NO_PROTOTYPES)
 target_link_libraries(vkKompute PRIVATE Vulkan::Headers)

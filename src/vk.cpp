@@ -2,10 +2,12 @@
 
 #include <Windows.h>
 
+#include "instance.h"
+
 // TODO: check if we can remain hidden.
 namespace
 {
-VkInstance instance;
+Instance instance;
 }
 
 // clang-format off
@@ -63,71 +65,53 @@ PFN_vkDestroyShaderModule vkDestroyShaderModule{nullptr};
     if (ptr == nullptr)      \
         return false;
 
-bool InitFunctions(HMODULE lib)
+bool Initialize(HMODULE lib)
 {
     vkGetInstanceProcAddr =
         (PFN_vkGetInstanceProcAddr)GetProcAddress(lib, "vkGetInstanceProcAddr");
     vkCreateInstance = (PFN_vkCreateInstance)vkGetInstanceProcAddr(
         nullptr, "vkCreateInstance");
 
-    VkApplicationInfo appInfo{VK_STRUCTURE_TYPE_APPLICATION_INFO,
-                              nullptr,
-                              "",
-                              {},
-                              "Kompute",
-                              0,
-                              VK_API_VERSION_1_0};
-
-    VkInstanceCreateInfo instanceCreateInfo{};
-    instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-    instanceCreateInfo.enabledExtensionCount = 0;
-    instanceCreateInfo.enabledLayerCount = 0;
-    instanceCreateInfo.flags = 0;
-    instanceCreateInfo.pNext = nullptr;
-    instanceCreateInfo.ppEnabledExtensionNames = nullptr;
-    instanceCreateInfo.ppEnabledLayerNames = nullptr;
-    instanceCreateInfo.pApplicationInfo = &appInfo;
-
-    if (vkCreateInstance(&instanceCreateInfo, nullptr, &instance) != VK_SUCCESS)
+    if (!instance.Create())
     {
         return false;
     }
 
     vkGetDeviceProcAddr = (PFN_vkGetDeviceProcAddr)vkGetInstanceProcAddr(
-        instance, "vkGetDeviceProcAddr");
+        instance.Get(), "vkGetDeviceProcAddr");
     CHECKFORNULLPTR(vkGetDeviceProcAddr);
 
     vkEnumeratePhysicalDevices =
         (PFN_vkEnumeratePhysicalDevices)vkGetInstanceProcAddr(
-            instance, "vkEnumeratePhysicalDevices");
+            instance.Get(), "vkEnumeratePhysicalDevices");
     CHECKFORNULLPTR(vkEnumeratePhysicalDevices);
 
     vkGetPhysicalDeviceProperties =
         (PFN_vkGetPhysicalDeviceProperties)vkGetInstanceProcAddr(
-            instance, "vkGetPhysicalDeviceProperties");
+            instance.Get(), "vkGetPhysicalDeviceProperties");
     CHECKFORNULLPTR(vkGetPhysicalDeviceProperties);
 
     vkGetPhysicalDeviceFeatures =
         (PFN_vkGetPhysicalDeviceFeatures)vkGetInstanceProcAddr(
-            instance, "vkGetPhysicalDeviceFeatures");
+            instance.Get(), "vkGetPhysicalDeviceFeatures");
     CHECKFORNULLPTR(vkGetPhysicalDeviceFeatures);
 
     vkGetPhysicalDeviceMemoryProperties =
         (PFN_vkGetPhysicalDeviceMemoryProperties)vkGetInstanceProcAddr(
-            instance, "vkGetPhysicalDeviceMemoryProperties");
+            instance.Get(), "vkGetPhysicalDeviceMemoryProperties");
     CHECKFORNULLPTR(vkGetPhysicalDeviceMemoryProperties);
 
     vkGetPhysicalDeviceQueueFamilyProperties =
         (PFN_vkGetPhysicalDeviceQueueFamilyProperties)vkGetInstanceProcAddr(
-            instance, "vkGetPhysicalDeviceQueueFamilyProperties");
+            instance.Get(), "vkGetPhysicalDeviceQueueFamilyProperties");
     CHECKFORNULLPTR(vkGetPhysicalDeviceQueueFamilyProperties);
 
     vkDestroyInstance = (PFN_vkDestroyInstance)vkGetInstanceProcAddr(
-        instance, "vkDestroyInstance");
+        instance.Get(), "vkDestroyInstance");
     CHECKFORNULLPTR(vkDestroyInstance);
 
-    vkCreateDevice =
-        (PFN_vkCreateDevice)vkGetInstanceProcAddr(instance, "vkCreateDevice");
+    vkCreateDevice = (PFN_vkCreateDevice)vkGetInstanceProcAddr(
+        instance.Get(), "vkCreateDevice");
     CHECKFORNULLPTR(vkCreateDevice);
 
     return true;
@@ -145,7 +129,7 @@ void CleanUpVk()
     vkGetPhysicalDeviceQueueFamilyProperties = nullptr ;
     vkCreateDevice = nullptr;
 
-    vkDestroyInstance(instance, nullptr);
-    instance = nullptr;
+    instance.CleanUp();
+
     vkDestroyInstance = nullptr;
 }

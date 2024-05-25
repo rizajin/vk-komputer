@@ -7,7 +7,11 @@ class KomputeFramework
     KomputeFramework() = default;
     ~KomputeFramework();
     bool Init();
-    
+
+    KomputeFramework(const KomputeFramework&) = delete;
+    KomputeFramework& operator=(const KomputeFramework&) = delete;
+    KomputeFramework(KomputeFramework&&) = delete;
+    KomputeFramework& operator=(KomputeFramework&&) = delete;
    private:
     void CleanUp();
 };
